@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 app.set('port', process.env.PORT || 3000);
+app.use(bodyParser.json());
 app.locals.title = 'palette picker';
 app.locals.projects = [
   { project_id: 1,
@@ -20,7 +22,7 @@ app.locals.projects = [
     color_3: '3',
     color_4: '4'
   }
-]
+];
 
 app.use(express.static('public'));
 
@@ -32,6 +34,11 @@ app.get('/api/v1/projects/:project_id', (request, response) => {
   // let projectId = request.params.project_id
   //knex go find all palettes with projectId 1
   response.send(app.locals.projects);
+})
+
+app.post('/api/v1/projects', (request, response) => {
+  app.locals.projects.push(request.body)
+  console.log(app.locals.projects);
 })
 
 app.listen(app.get('port'), () => {
