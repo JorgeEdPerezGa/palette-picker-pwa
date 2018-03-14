@@ -28,7 +28,9 @@ app.get('/', (request, response) => {
   response.send('palette picker');
 })
 
-app.get('/api/v1/projects/:project_id', (request,response) => {
+app.get('/api/v1/projects/:project_id', (request, response) => {
+  // let projectId = request.params.project_id
+  //knex go find all palettes with projectId 1
   response.send(app.locals.projects);
 })
 

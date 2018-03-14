@@ -18,4 +18,13 @@ const handleSubmit = () => {
   }
 }
 
+// fetch project
+const getProjects = async() => {
+  let project_id = 1;
+  const fetchProjects = await fetch(`/api/v1/projects/${project_id}`);
+  const projects = await fetchProjects.json();
+  console.log(projects);
+}
+
+window.onload = () => getProjects();
 randomColors.addEventListener('click', handleSubmit);
