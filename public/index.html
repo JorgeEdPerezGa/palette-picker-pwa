@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>palette picker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900"
+      rel="stylesheet">
+  </head>
+  <body>
+    <!-- page header -->
+    <h1>PALETTE PICKER</h1>
+    <!-- random color generator -->
+    <button
+    id="randomColors"
+    class="generate-button">
+    GENERATE NEW PALETTE</button>
+    <!-- current colors -->
+    <section class="palette-picker-colors">
+      <!-- color 0 -->
+        <article class="color-container">
+          <div class="color-info">
+            <button class="lock-button"></button>
+            <p class="color-code-0">#FF7575</p>
+          </div>
+          <div class="color-box-0"/>
+        </article>
+      <!-- color 1 -->
+        <article class="color-container">
+          <div class="color-info">
+            <button class="lock-button"></button>
+            <p class="color-code-1">#CC5C8A</p>
+          </div>
+          <div class="color-box-1"/>
+        </article>
+      <!-- color 2 -->
+        <article class="color-container">
+          <div class="color-info">
+            <button class="lock-button"></button>
+            <p class="color-code-2">#AA75FF</p>
+          </div>
+          <div class="color-box-2"/>
+        </article>
+      <!-- color 3 -->
+        <article class="color-container">
+          <div class="color-info">
+            <button id="lockButton" class="lock-button"></button>
+            <p class="color-code-3">#7D5FDA</p>
+          </div>
+          <div class="color-box-3"/>
+        </article>
+      <!-- color 4 -->
+        <article class="color-container">
+          <div class="color-info">
+            <button class="lock-button"></button>
+            <p class="color-code-4">#AAE6E6</p>
+          </div>
+          <div class="color-box-4"/>
+        </article>
+      </section>
+      <!-- save current colors -->
+      <article class="save-container">
+        <select class="select-project">
+          <option>project 1</option>
+          <option>project 2</option>
+        </select>
+        <input class="palette-name-input" placeholder="palette name">
+        <button id="savePalette" class="save-palette-button">save palette</button>
+      </article>
+    <!-- create new project -->
+    <section class="palette-picker-select">
+      <input class="project-name-input" placeholder="create a new project">
+      <button class="save-project-button">save project</button>
+      <!-- projects -->
+      <p class="project-name">project 1</p>
+      <article class="project-container">
+        <p class="palette-name">palette 1</p>
+        <article class="small-pallete">
+          <div class="color-box-small"></div>
+          <div class="color-box-small-1"></div>
+          <div class="color-box-small-2"></div>
+          <div class="color-box-small-3"></div>
+          <div class="color-box-small-4"></div>
+        </article>
+        <button class="delete-project-button"></button>
+      </article>
+    </section>
+    <!-- scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts.js"></script>
+  </body>
+</html>
