@@ -13,9 +13,17 @@ const randomColor = () => {
 const handleSubmit = () => {
   for (var i = 0; i < 5; i++) {
     const color = randomColor();
-    $(`.color-box-${i}`).css('background-color', color)
-    $(`.color-code-${i}`).text(color)
+    if(!$(`.color-box-${i}`).hasClass('.locked')) {
+      $(`.color-box-${i}`).css('background-color', color)
+      $(`.color-code-${i}`).text(color)
+    }
   }
+}
+
+// lock color
+function lockColor() {
+  var colorBoxId = $(this).attr('color-box-id');
+  $(`.${colorBoxId}`).toggleClass('.locked');
 }
 
 // fetch project
@@ -54,3 +62,4 @@ const postPalette = () => {
 window.onload = () => getProjects();
 randomColors.addEventListener('click', handleSubmit);
 savePalette.addEventListener('click', postPalette);
+$('.lock-button').on('click', lockColor)
