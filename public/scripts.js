@@ -24,6 +24,7 @@ const handleSubmit = () => {
 function lockColor() {
   var colorBoxId = $(this).attr('color-box-id');
   $(`.${colorBoxId}`).toggleClass('.locked');
+  $(this).toggleClass('locked-button');
 }
 
 //fetch project
@@ -122,6 +123,15 @@ const handlePostProject = async () => {
 const postPalette = async () => {
   const colors = getColorCode();
   const id = $('.select-project').find(':selected').attr('class');
+  const newPalette = {
+    name: paletteNameInput.value,
+    color_0: colors[0],
+    color_1: colors[1],
+    color_2: colors[2],
+    color_3: colors[3],
+    color_4: colors[4]
+  }
+
   try {
     const url =`/api/v1/projects/${id}/palettes`;
     const postPalette = await fetch(url, {
@@ -129,14 +139,7 @@ const postPalette = async () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        name: paletteNameInput.value,
-        color_0: colors[0],
-        color_1: colors[1],
-        color_2: colors[2],
-        color_3: colors[3],
-        color_4: colors[4]
-      })
+      body: JSON.stringify(newPalette)
     });
     if (postPalette.status > 299) {
       throw new Error('could not post palette');
@@ -146,6 +149,7 @@ const postPalette = async () => {
   } catch (error) {
     throw (error);
   }
+  await getPalettes({id});
 }
 
 const getColorCode = () => {

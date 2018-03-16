@@ -22,6 +22,14 @@ select {
   outline-offset: -1px;
 }
 
+button:focus{
+  outline: none;
+}
+
+input:focus{
+  outline: none;
+}
+
 .palette-picker-colors {
   padding: 50px 0 50px 0;
   display: flex;
@@ -103,6 +111,7 @@ select {
 .project-name-input {
   height: 42px;
   width: 615px;
+  color: #9d9d9d;
   background: #1b1b1b;
   border: none;
   padding: 0 0 1px 10px;
@@ -137,12 +146,42 @@ select {
   padding: 40px 0 40px;
 }
 
-.color-code {
-  padding-left: 10px;
+.color-code-0 {
+  padding-left: 12px;
+}
+
+.color-code-1 {
+  padding-left: 12px;
+}
+
+.color-code-2 {
+  padding-left: 12px;
+}
+
+.color-code-3 {
+  padding-left: 12px;
+}
+
+.color-code-4 {
+  padding-left: 13px;
 }
 
 .lock-button {
   background: #e2e2e2;
+  background-image: url('./assets/lock.svg');
+  width: 50px;
+  height: 51px;
+  border: none;
+}
+
+.lock-button:hover {
+  background-image: url('./assets/lock-hover.svg');
+  cursor: pointer;
+}
+
+.locked-button {
+  background: #e2e2e2;
+  background-image: url('./assets/locked.svg');
   width: 50px;
   height: 51px;
   border: none;
@@ -197,7 +236,14 @@ select {
 
 .delete-project-button {
   background: #e2e2e2;
+  background-image: url('./assets/remove.svg');
   width: 50px;
   height: 51px;
   border: none;
+}
+
+.delete-project-button:hover {
+  background: #e2e2e2;
+  background-image: url('./assets/remove-hover.svg');
+  cursor: pointer;
 }
