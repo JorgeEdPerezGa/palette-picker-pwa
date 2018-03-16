@@ -26,20 +26,73 @@ function lockColor() {
   $(`.${colorBoxId}`).toggleClass('.locked');
 }
 
-// fetch project
+//fetch project
+const fetchProjects = async() => {
+  const url = '/api/v1/projects/';
+  const fetchProjects = await fetch(url);
+  return await fetchProjects.json();
+}
+
+// get poject options
 const getProjects = async() => {
-  // let project_id = 1;
-  // const fetchProjects = await fetch(`/api/v1/projects/${project_id}`);
-  const fetchProjects = await fetch(`/api/v1/projects/`);
-  const projects = await fetchProjects.json();
-  projects.forEach(project => displayProjectOption(project.name));
+  const projects = await fetchProjects();
+  projects.forEach(project => {
+    displayProjectOption(project)
+    getPalettes(project)
+  })
 }
 
-const displayProjectOption = (name) => {
-  $('.select-project').prepend(`<option>${name}</option>`)
+//get palettes
+const getPalettes = async(project) => {
+  const url = `/api/v1/projects/${project.id}/palettes`;
+  const fetchPalettes = await fetch(url);
+  const palettes = await fetchPalettes.json();
+  displayPalettes(palettes, project);
 }
 
-//post a projct
+const displayProjectOption = (project) => {
+  const { name, id } = project
+  $('.select-project').prepend(`<option class="${id}">${name}</option>`)
+}
+
+const displayPalettes = (palettes, project) => {
+  console.log(palettes);
+  return palettes.map(palette => {
+    const { name,
+            color_0,
+            color_1,
+            color_2,
+            color_3,
+            color_4 } = palette;
+
+    $('.preview-project-container').prepend(`
+      <p class="project-name">${project.name}</p>
+      <article class="project-container">
+        <p class="palette-name">${name}</p>
+        <article class="small-pallete">
+          <div
+            class="color-box-small"
+            style="background-color:${color_0}"></div>
+          <div
+            class="color-box-small-1"
+            style="background-color:${color_1}"></div>
+          <div
+            class="color-box-small-2"
+            style="background-color:${color_2}"></div>
+          <div
+            class="color-box-small-3"
+            style="background-color:${color_3}"></div>
+          <div
+            class="color-box-small-4"
+            style="background-color:${color_4}"></div>
+        </article>
+        <button class="delete-project-button"></button>
+      </article>
+    `)
+  })
+}
+
+//post a project
 const handlePostProject = async () => {
   try {
     const projectName = projectNameInput.value;
@@ -75,7 +128,7 @@ const handlePostProject = async () => {
 //         color_3: '3',
 //         color_4: '4' };
 //     console.log(projectName);
-//     const url ='/api/v1/projects/';
+    // const url ='/api/v1/projects/';
 //
 //     const postPalette = await fetch(url, {
 //       method: "POST",
@@ -94,32 +147,10 @@ const handlePostProject = async () => {
 //   }
 // }
 
-//post palette
-// const postPalette = async() => {
-//   const palette = {
-//     project_id: 2,
-//     name: 'project palette',
-//     color_0: '0',
-//     color_1: '1',
-//     color_2: '2',
-//     color_3: '3',
-//     color_4: '4'
-//   }
-//
-//   await fetch("http://localhost:3000/api/v1/projects/",
-//   {
-//     headers: {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json'
-//     },
-//     method: "POST",
-//     body: JSON.stringify(palette)
-//   })
-//   .then(function(res){ console.log(res) })
-//   .catch(function(res){ console.log(res) })
-// }
+window.onload = () => {
+  getProjects();
 
-window.onload = () => getProjects();
+}
 randomColors.addEventListener('click', handleSubmit);
 // savePalette.addEventListener('click', postPalette);
 saveProject.addEventListener('click', handlePostProject);
