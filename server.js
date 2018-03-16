@@ -3,18 +3,23 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+//check if there is an existing enviroment and if not redirects to localhost 3000
 app.set('port', process.env.PORT || 3000);
+//body parser allows to be read as json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.locals.title = 'palette picker';
 
+//set up an enviroment for development
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+//this allows express to use index.html in the public folder
 app.use(express.static('public'));
 
+// make a get request and send palette picker
 app.get('/', (request, response) => {
   response.send('palette picker');
 })
@@ -42,11 +47,6 @@ app.post('/api/v1/projects', (request, response) => {
       response.status(500).json({ error });
     });
 });
-
-// app.post(`/api/v1/projects/:id/palettes`, (request, response) => {
-//   console.log('caca');
-//  console.log(request.body);
-// });
 
 app.get('/api/v1/projects/:id/palettes', (request, response) => {
   database('palettes').where('project_id', request.params.id).select()
