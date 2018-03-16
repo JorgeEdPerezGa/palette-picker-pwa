@@ -24,6 +24,24 @@ app.get('/', (request, response) => {
 //   //knex go find all palettes with projectId 1
 //   response.send(app.locals.projects);
 // })
+app.post('/api/v1/projects/:id/palettes', (request, response) => {
+  //this is my param in the fetch call
+
+  let palette = request.body
+  // let paletteTemplate = ['name', 'color_0', 'color_1', 'color_2', 'color_3', 'color_4']
+  console.log(palette);
+  //I want to make sure that when they are pasing in the body it contains the name and 5 colors
+  // for (requiredParam of paletteTemplate) {
+  //   if (!palette[requiredParam]) {
+  //     return response.status(422).json({ error: `incomplete palette, missing ${requiredParam}` })
+  //   }
+  // }
+  palette = Object.assign({}, palette, {project_id:request.params.id});
+  return database('palettes').insert(palette, '*')
+    .then(paletteResponse => response.status(201).json(paletteResponse[0]))
+    .catch(error => response.status(500).json({ error }))
+    // response.send(app.locals.projects);
+})
 
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
@@ -59,25 +77,6 @@ app.get('/api/v1/projects/:id/palettes', (request, response) => {
       }
     })
     .catch(error => response.status(500).json({ error }))
-})
-
-app.post('/api/v1/projects/:id/palettes', (request, response) => {
-  //this is my param in the fetch call
-  let palette = request.body
-  let paletteTemplate = ['name', 'color_0', 'color_1', 'color_2', 'color_3', 'color_4']
-
-  //I want to make sure that when they are pasing in the body it contains the name and 5 colors
-  for (requiredParam of paletteTemplate) {
-    if (!palette[requiredParam]) {
-      return response.status(422).json({ error: `incomplete palette, missing ${requiredParam}` })
-    }
-  }
-  palette = Object.assignt({}, palette, {project_id:request.params.id});
-  return database('palettes').insert(palette, '*')
-    .then(paletteResponse => response.status(201).json(paletteResponse[0]))
-    .catch(error => response.status(500).json({ error }))
-
-  // response.send(app.locals.projects);
 })
 
 app.listen(app.get('port'), () => {
