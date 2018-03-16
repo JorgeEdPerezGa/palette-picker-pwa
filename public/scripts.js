@@ -29,7 +29,8 @@ function lockColor() {
 // fetch project
 const getProjects = async() => {
   let project_id = 1;
-  const fetchProjects = await fetch(`/api/v1/projects/${project_id}`);
+  // const fetchProjects = await fetch(`/api/v1/projects/${project_id}`);
+  const fetchProjects = await fetch(`/api/v1/projects/`);
   const projects = await fetchProjects.json();
   console.log(projects);
 }
@@ -61,5 +62,5 @@ const postPalette = () => {
 
 window.onload = () => getProjects();
 randomColors.addEventListener('click', handleSubmit);
-savePalette.addEventListener('click', postPalette);
+saveProject.addEventListener('click', postPalette);
 $('.lock-button').on('click', lockColor)
