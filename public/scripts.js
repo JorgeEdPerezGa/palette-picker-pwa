@@ -117,41 +117,47 @@ const handlePostProject = async () => {
   }
 }
 
-//post paletter
-// const postPalette = async () => {
-//   try {
-//     const fakePalette = {
-//       name: 'project palette',
-//         color_0: '0',
-//         color_1: '1',
-//         color_2: '2',
-//         color_3: '3',
-//         color_4: '4' };
-//     console.log(projectName);
-    // const url ='/api/v1/projects/';
-//
-//     const postPalette = await fetch(url, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify({name: projectName})
-//     });
-//     if (postPalette.status > 299) {
-//       throw new Error('could not post palette');
-//     } else {
-//       return await postPalette.json();
-//     }
-//   } catch (error) {
-//     throw (error);
-//   }
-// }
-
-window.onload = () => {
-  getProjects();
-
+// post paletter
+const postPalette = async () => {
+  const colors = getColorCode();
+  const id = $('.select-project').find(':selected').attr('class');
+  try {
+    const url =`/api/v1/projects/${id}/palettes`;
+    const postPalette = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: paletteNameInput.value,
+        color_0: colors[0],
+        color_1: colors[1],
+        color_2: colors[2],
+        color_3: colors[3],
+        color_4: colors[4]
+      })
+    });
+    if (postPalette.status > 299) {
+      throw new Error('could not post palette');
+    } else {
+      return await postPalette.json();
+    }
+  } catch (error) {
+    throw (error);
+  }
 }
+
+const getColorCode = () => {
+  var colors = [];
+  for (var i = 0; i < 5; i++) {
+    const color = $(`.color-code-${i}`).text()
+    colors.push(color);
+  }
+  return colors;
+}
+
+window.onload = () => getProjects();
 randomColors.addEventListener('click', handleSubmit);
-// savePalette.addEventListener('click', postPalette);
+savePalette.addEventListener('click', postPalette);
 saveProject.addEventListener('click', handlePostProject);
 $('.lock-button').on('click', lockColor)
