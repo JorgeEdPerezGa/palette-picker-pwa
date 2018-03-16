@@ -21,5 +21,15 @@ module.exports = {
       directory: './db/seeds/test'
     },
     useNullAsDefault: true
+  },
+
+  production: {
+    client: 'pg',
+    //heroku creates .DATABASE_URL, this will ensure that it has the right connection
+    connection: process.env.DATABASE_URL + `?ssl=true`,
+    migrations: {
+      directory: './db/migrations'
+    },
+    useNullAsDefault: true
   }
 };
