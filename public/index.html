@@ -61,30 +61,18 @@
       </section>
       <!-- save current colors -->
       <article class="save-container">
-        <select class="select-project">
-          <option>project 1</option>
-          <option>project 2</option>
-        </select>
-        <input class="palette-name-input" placeholder="palette name">
+        <select class="select-project"></select>
+        <input id="paletteNameInput" class="palette-name-input" placeholder="palette name">
         <button id="savePalette" class="save-palette-button">save palette</button>
       </article>
     <!-- create new project -->
     <section class="palette-picker-select">
-      <input class="project-name-input" placeholder="create a new project">
-      <button class="save-project-button">save project</button>
+      <input id="projectNameInput" class="project-name-input" placeholder="create a new project">
+      <button id="saveProject" class="save-project-button">save project</button>
       <!-- projects -->
-      <p class="project-name">project 1</p>
-      <article class="project-container">
-        <p class="palette-name">palette 1</p>
-        <article class="small-pallete">
-          <div class="color-box-small"></div>
-          <div class="color-box-small-1"></div>
-          <div class="color-box-small-2"></div>
-          <div class="color-box-small-3"></div>
-          <div class="color-box-small-4"></div>
-        </article>
-        <button class="delete-project-button"></button>
-      </article>
+      <div class="preview-project-container">
+      </div>
+
     </section>
     <!-- scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
