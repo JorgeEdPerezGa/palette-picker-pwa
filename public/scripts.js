@@ -59,6 +59,7 @@ const displayPalettes = (palettes, project) => {
   console.log(palettes);
   return palettes.map(palette => {
     const { name,
+            id,
             color_0,
             color_1,
             color_2,
@@ -67,7 +68,7 @@ const displayPalettes = (palettes, project) => {
 
     $('.preview-project-container').prepend(`
       <p class="project-name">${project.name}</p>
-      <article class="project-container">
+      <article id="${id}" class="project-container">
         <p class="palette-name">${name}</p>
         <article class="small-pallete">
           <div
@@ -156,8 +157,20 @@ const getColorCode = () => {
   return colors;
 }
 
+const deletePalette = (event) => {
+  const id = event.target.parentNode.getAttribute('id');
+  const url = `/api/v1/palettes/${id}`
+  fetch(url, {
+    method: "DELETE"
+  })
+  .then(response => console.log('sucess'))
+  .catch(error => console.log('error'))
+  event.target.parentNode.remove();
+}
+
 window.onload = () => getProjects();
 randomColors.addEventListener('click', handleSubmit);
 savePalette.addEventListener('click', postPalette);
 saveProject.addEventListener('click', handlePostProject);
+$('.preview-project-container').on('click', '.delete-project-button', deletePalette);
 $('.lock-button').on('click', lockColor)

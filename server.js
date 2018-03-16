@@ -84,6 +84,18 @@ app.post('/api/v1/projects/:id/palettes', (request, response) => {
     .catch(error => response.status(500).json({ error }))
 })
 
+app.delete('/api/v1/palettes/:id', (request, response) => {
+  database('palettes').where('id', request.params.id).del()
+    .then(palette => {
+      if(palette) {
+        return response.sendStatus(200);
+      } else {
+        return response.sendStatus(404);
+      }
+    })
+    .catch(error => response.status(500).json({ error }))
+})
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} server running on port 3000`);
 });
