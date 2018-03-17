@@ -27,8 +27,8 @@ const displaySavedAsMain = (event) => {
   for ( var i = 0; i < paletteColors.length; i++) {
     // create a variable for each box at specific index
     const color = paletteColors[i].style.backgroundColor;
-    // replace current background color of each
-    // color-box[i] with previously saved color
+    // replace current main palette with
+    // with previously saved palette.
     $(`.color-box-${i}`).css('background-color', color)
     $(`.color-code-${i}`).text(color)
   }
