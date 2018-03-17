@@ -20,6 +20,20 @@ const handleSubmit = () => {
   }
 }
 
+const displaySavedAsMain = (event) => {
+  // grab from html the palette parentNode
+  const paletteColors = event.target.parentNode.children;
+  // iterate parentNode to change the html of each children
+  for ( var i = 0; i < paletteColors.length; i++) {
+    // create a variable for each box at specific index
+    const color = paletteColors[i].style.backgroundColor;
+    // replace current background color of each
+    // color-box[i] with previously saved color
+    $(`.color-box-${i}`).css('background-color', color)
+    $(`.color-code-${i}`).text(color)
+  }
+}
+
 // lock color
 function lockColor() {
   var colorBoxId = $(this).attr('color-box-id');
@@ -47,8 +61,17 @@ const getProjects = async() => {
 const getPalettes = async(project) => {
   const url = `/api/v1/projects/${project.id}/palettes`;
   const fetchPalettes = await fetch(url);
-  const palettes = await fetchPalettes.json();
-  displayPalettes(palettes, project);
+  const palettesResponse = await fetchPalettes.json();
+
+  console.log('palettes response', palettesResponse);
+  // const palettes = await palettesResponse.forEach(pallete => {
+  //   // if(!palette.length) {
+  //   //   return palette.push('no palettes')
+  //   // }
+  //   console.log(palette);
+  //   return palette
+  // })
+  displayPalettes(palettesResponse, project);
 }
 
 const displayProjectOption = (project) => {
@@ -58,7 +81,6 @@ const displayProjectOption = (project) => {
 
 const displayPalettes = (palettes, project) => {
   console.log(palettes);
-
   palettes.map(palette => {
     const { name,
             id,
@@ -144,15 +166,16 @@ const postPalette = async () => {
       },
       body: JSON.stringify(newPalette)
     });
+
     if (postPalette.status > 299) {
       throw new Error('could not post palette');
     } else {
-      return await postPalette.json();
+      await postPalette.json();
     }
   } catch (error) {
     throw (error);
   }
-  await getPalettes({id});
+  // await getPalettes({id});
 }
 
 const getColorCode = () => {
@@ -182,4 +205,5 @@ randomColors.addEventListener('click', handleSubmit);
 savePalette.addEventListener('click', postPalette);
 saveProject.addEventListener('click', handlePostProject);
 $('.preview-project-container').on('click', '.delete-project-button', deletePalette);
+$('.preview-project-container').on('click', '.project-container','.small-palette', displaySavedAsMain);
 $('.lock-button').on('click', lockColor)
