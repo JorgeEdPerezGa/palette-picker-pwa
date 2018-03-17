@@ -58,7 +58,8 @@ const displayProjectOption = (project) => {
 
 const displayPalettes = (palettes, project) => {
   console.log(palettes);
-  return palettes.map(palette => {
+
+  palettes.map(palette => {
     const { name,
             id,
             color_0,
@@ -68,7 +69,6 @@ const displayPalettes = (palettes, project) => {
             color_4 } = palette;
 
     $('.preview-project-container').prepend(`
-      <p class="project-name">${project.name}</p>
       <article id="${id}" class="project-container">
         <p class="palette-name">${name}</p>
         <article class="small-pallete">
@@ -92,6 +92,9 @@ const displayPalettes = (palettes, project) => {
       </article>
     `)
   })
+  $('.preview-project-container').prepend(`
+    <p class="project-name">${project.name}</p>
+  `)
 }
 
 //post a project
@@ -161,7 +164,9 @@ const getColorCode = () => {
   return colors;
 }
 
-const deletePalette = (event) => {
+const deletePalette = async (event) => {
+  console.log(event.target.parentNode);
+
   const id = event.target.parentNode.getAttribute('id');
   const url = `/api/v1/palettes/${id}`
   fetch(url, {
