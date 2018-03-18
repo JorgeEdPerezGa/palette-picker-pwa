@@ -26,7 +26,7 @@ const displaySavedAsMain = (event) => {
   // iterate parentNode to change the html of each children
   for ( var i = 0; i < paletteColors.length; i++) {
     // create a variable for each box at specific index
-    const color = rgbToHex(paletteColors[i].style.backgroundColor)
+    const color = paletteColors[i].style.backgroundColor;
     // replace current main palette with
     // with previously saved palette.
     $(`.color-box-${i}`).css('background-color', color)
