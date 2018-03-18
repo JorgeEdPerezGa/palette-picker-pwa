@@ -26,7 +26,7 @@ const displaySavedAsMain = (event) => {
   // iterate parentNode to change the html of each children
   for ( var i = 0; i < paletteColors.length; i++) {
     // create a variable for each box at specific index
-    const color = paletteColors[i].style.backgroundColor;
+    const color = rgbToHex(paletteColors[i].style.backgroundColor)
     // replace current main palette with
     // with previously saved palette.
     $(`.color-box-${i}`).css('background-color', color)
@@ -63,14 +63,6 @@ const getPalettes = async(project) => {
   const fetchPalettes = await fetch(url);
   const palettesResponse = await fetchPalettes.json();
 
-  console.log('palettes response', palettesResponse);
-  // const palettes = await palettesResponse.forEach(pallete => {
-  //   // if(!palette.length) {
-  //   //   return palette.push('no palettes')
-  //   // }
-  //   console.log(palette);
-  //   return palette
-  // })
   displayPalettes(palettesResponse, project);
 }
 
@@ -175,7 +167,7 @@ const postPalette = async () => {
   } catch (error) {
     throw (error);
   }
-  // await getPalettes({id});
+  history.go(0)
 }
 
 const getColorCode = () => {
