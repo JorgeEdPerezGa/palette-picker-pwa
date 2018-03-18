@@ -20,6 +20,20 @@ const handleSubmit = () => {
   }
 }
 
+const displaySavedAsMain = (event) => {
+  // grab from html the palette parentNode
+  const paletteColors = event.target.parentNode.children;
+  // iterate parentNode to change the html of each children
+  for ( var i = 0; i < paletteColors.length; i++) {
+    // create a variable for each box at specific index
+    const color = rgbToHex(paletteColors[i].style.backgroundColor)
+    // replace current main palette with
+    // with previously saved palette.
+    $(`.color-box-${i}`).css('background-color', color)
+    $(`.color-code-${i}`).text(color)
+  }
+}
+
 // lock color
 function lockColor() {
   var colorBoxId = $(this).attr('color-box-id');
@@ -47,8 +61,9 @@ const getProjects = async() => {
 const getPalettes = async(project) => {
   const url = `/api/v1/projects/${project.id}/palettes`;
   const fetchPalettes = await fetch(url);
-  const palettes = await fetchPalettes.json();
-  displayPalettes(palettes, project);
+  const palettesResponse = await fetchPalettes.json();
+
+  displayPalettes(palettesResponse, project);
 }
 
 const displayProjectOption = (project) => {
@@ -58,7 +73,7 @@ const displayProjectOption = (project) => {
 
 const displayPalettes = (palettes, project) => {
   console.log(palettes);
-  return palettes.map(palette => {
+  palettes.map(palette => {
     const { name,
             id,
             color_0,
@@ -68,7 +83,6 @@ const displayPalettes = (palettes, project) => {
             color_4 } = palette;
 
     $('.preview-project-container').prepend(`
-      <p class="project-name">${project.name}</p>
       <article id="${id}" class="project-container">
         <p class="palette-name">${name}</p>
         <article class="small-pallete">
@@ -92,6 +106,9 @@ const displayPalettes = (palettes, project) => {
       </article>
     `)
   })
+  $('.preview-project-container').prepend(`
+    <p class="project-name">${project.name}</p>
+  `)
 }
 
 //post a project
@@ -141,15 +158,16 @@ const postPalette = async () => {
       },
       body: JSON.stringify(newPalette)
     });
+
     if (postPalette.status > 299) {
       throw new Error('could not post palette');
     } else {
-      return await postPalette.json();
+      await postPalette.json();
     }
   } catch (error) {
     throw (error);
   }
-  await getPalettes({id});
+  history.go(0)
 }
 
 const getColorCode = () => {
@@ -161,7 +179,9 @@ const getColorCode = () => {
   return colors;
 }
 
-const deletePalette = (event) => {
+const deletePalette = async (event) => {
+  console.log(event.target.parentNode);
+
   const id = event.target.parentNode.getAttribute('id');
   const url = `/api/v1/palettes/${id}`
   fetch(url, {
@@ -177,4 +197,5 @@ randomColors.addEventListener('click', handleSubmit);
 savePalette.addEventListener('click', postPalette);
 saveProject.addEventListener('click', handlePostProject);
 $('.preview-project-container').on('click', '.delete-project-button', deletePalette);
+$('.preview-project-container').on('click', '.project-container','.small-palette', displaySavedAsMain);
 $('.lock-button').on('click', lockColor)

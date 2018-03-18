@@ -3,12 +3,12 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 350 350" style="enable-background:new 0 0 350 350;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#DB6379;}
+	.st0{fill:#BC536A;}
 </style>
 <g>
 	<g id="remove-circle">
-		<path class="st0" d="M175,31.7C96.2,31.7,31.7,96.2,31.7,175S96.2,318.3,175,318.3S318.3,253.8,318.3,175S253.8,31.7,175,31.7z
-			 M246.6,189.3H103.4v-28.7h143.3V189.3z"/>
+		<path class="st0" d="M175,64.6c-60.7,0-110.4,49.7-110.4,110.4S114.3,285.4,175,285.4S285.4,235.7,285.4,175S235.7,64.6,175,64.6z
+			 M230.2,186H119.8V164h110.4V186z"/>
 	</g>
 </g>
 </svg>
