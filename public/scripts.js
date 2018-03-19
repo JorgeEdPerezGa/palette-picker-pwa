@@ -26,13 +26,22 @@ const displaySavedAsMain = (event) => {
   // iterate parentNode to change the html of each children
   for ( var i = 0; i < paletteColors.length; i++) {
     // create a variable for each box at specific index
-    const color = paletteColors[i].style.backgroundColor;
+    // const color = rgbToHex(paletteColors[i].style.backgroundColor)
+    const color = paletteColors[i].style.backgroundColor
     // replace current main palette with
     // with previously saved palette.
     $(`.color-box-${i}`).css('background-color', color)
     $(`.color-code-${i}`).text(color)
   }
 }
+
+// function rgbToHex(rgb){
+//   rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+//   return ("#" +
+//     ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+//     ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+//     ("0" + parseInt(rgb[3],10).toString(16)).slice(-2)).toUpperCase();
+// }
 
 // lock color
 function lockColor() {
