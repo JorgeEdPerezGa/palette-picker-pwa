@@ -5,14 +5,16 @@ const app = express();
 // ability to parse the body of an HTTP request
 const bodyParser = require('body-parser');
 
-var http = express.createServer();
+var http = express();
 
-http.get('*', function(request, response) {
-    response.redirect('https://' + request.headers.host + request.url);
-})
+
 
 // check if there is an existing enviroment and if not redirects to localhost 3000
 app.set('port', process.env.PORT || 3000);
+
+http..get("*", function (req, res, next) {
+    res.redirect("https://" + req.headers.host + "/" + req.path);
+});
 // let app know to use bodyParser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
