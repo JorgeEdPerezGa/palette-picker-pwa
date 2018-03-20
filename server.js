@@ -5,7 +5,9 @@ const app = express();
 // ability to parse the body of an HTTP request
 const bodyParser = require('body-parser');
 
-app.get('*', function(request, response) {
+var http = express.createServer();
+
+http.get('*', function(request, response) {
     response.redirect('https://' + request.headers.host + request.url);
 })
 
