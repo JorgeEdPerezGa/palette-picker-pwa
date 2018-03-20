@@ -8,9 +8,14 @@ const bodyParser = require('body-parser');
 // check if there is an existing enviroment and if not redirects to localhost 3000
 app.set('port', process.env.PORT || 3000);
 
-app.get("*", (request, response, next) => {
-    response.redirect("https://" + request.headers.host + "/" + request.url);
-});
+const requireHTTPS = (req, res, next) => {
+  if(req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect('https://' + req.get('host') + req.url);
+  }
+  next()
+}
+
+app.use(requireHTTPS)
 // let app know to use bodyParser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
