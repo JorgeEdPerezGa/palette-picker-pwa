@@ -32,21 +32,20 @@ describe('Client Routes', () => {
 });
 
 describe('API Routes', () => {
-
-  describe('GET /api/v1/projects', () => {
-    beforeEach(function(done) {
-      database.migrate.rollback()
+  beforeEach(function(done) {
+    database.migrate.rollback()
+    .then(function() {
+      database.migrate.latest()
       .then(function() {
-        database.migrate.latest()
+        return database.seed.run()
         .then(function() {
-          return database.seed.run()
-          .then(function() {
-            done();
-          });
+          done();
         });
       });
     });
+  });
 
+  describe('GET /api/v1/projects', () => {
     it('should return all of the projects', () => {
       return chai.request(server)
       .get('/api/v1/projects')
@@ -83,29 +82,105 @@ describe('API Routes', () => {
     })
 
     it('should not create a project with missing data', () => {
-
+      return chai.request(server)
+      .post('/api/v1/projects')
+      .send({
+        fake: ''
+      })
+      .then(response => {
+        response.should.have.status(422);
+        response.body.error.should.equal(`You're missing a "projct name" property.`);
+      })
+      .catch(err => {
+        throw err;
+      });
     })
   })
 
   describe('GET /api/v1/projects/:id/palettes', () => {
-    it('should return all of the projects', () => {
-
+    it(`should return all of the projects' palettes`, () => {
+      return chai.request(server)
+      .get('/api/v1/projects/1/palettes')
+      .then(response => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        response.body[0].should.have.property('name');
+        response.body[0].name.should.equal('sample palette 1');
+        response.body[0].should.have.property('id');
+        response.body[0].id.should.equal(1);
+        response.body[0].should.have.property('color_0');
+        response.body[0].color_0.should.equal('#FF7575');
+        response.body[0].should.have.property('color_1');
+        response.body[0].color_1.should.equal('#CC5C8A');
+        response.body[0].should.have.property('color_2');
+        response.body[0].color_2.should.equal('#AA75FF');
+        response.body[0].should.have.property('color_3');
+        response.body[0].color_3.should.equal('#7D5FDA');
+        response.body[0].should.have.property('color_4');
+        response.body[0].color_4.should.equal('#aae6e6');
+      })
+      .catch(err => {
+        throw err;
+      })
     })
   })
 
   describe('POST /api/v1/projects/:id/palettes', () => {
     it('should create a palette', () => {
-
+      return chai.request(server)
+      .post('/api/v1/projects/1/palettes')
+      .send({
+        name: 'palette',
+        color_0: '#FFFFFF',
+        color_1: '#FFFFFF',
+        color_2: '#FFFFFF',
+        color_3: '#FFFFFF',
+        color_4: '#FFFFFF'
+      })
+      .then(response => {
+        response.should.have.status(201);
+        response.body.should.be.a('object');
+        response.body.should.have.property('name');
+        response.body.name.should.equal('palette');
+        response.body.should.have.property('color_0');
+        response.body.color_0.should.equal('#FFFFFF');
+        response.body.should.have.property('color_1');
+        response.body.color_1.should.equal('#FFFFFF');
+        response.body.should.have.property('color_2');
+        response.body.color_2.should.equal('#FFFFFF');
+        response.body.should.have.property('color_3');
+        response.body.color_3.should.equal('#FFFFFF');
+        response.body.should.have.property('color_4');
+        response.body.color_4.should.equal('#FFFFFF');
+        response.body.should.have.property('id');
+        response.body.id.should.equal(3);
+      })
     })
 
     it('should not create a palette with missing data', () => {
-
+      return chai.request(server)
+      .post('/api/v1/projects/1/palettes')
+      .send({
+        fake: ''
+      })
+      .then(response => {
+        response.should.have.status(422);
+        response.body.error.should.equal('incomplete palette, missing name');
+      })
+      .catch(err => {
+        throw err;
+      });
     })
   })
 
-  describe('DELETE DELETE /api/v1/palettes/:id', () => {
+  describe('DELETE /api/v1/palettes/:id', () => {
     it('should delete a palette', () => {
-
+      return chai.request(server)
+      .delete('/api/v1/palettes/1')
+      .then(response => {
+        response.should.have.status(200);
+      })
     })
   })
 });
