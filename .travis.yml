@@ -2,9 +2,6 @@ language: node_js
 node_js:
   - node
 addons:
-  postgresql: "9.4" 
+  postgresql: "9.4"
 before_script:
-  - psql -U postgres -d postgres -a -f ./node_modules/navaja-sql/machete-db-user.sql
-  - export PGPASSWORD="replace_me"
-  - psql -U machetedb_app_user -d postgres -a -f ./node_modules/navaja-sql/machete-db.sql
-  - psql -U machetedb_app_user -d machetedb -a -f ./node_modules/navaja-sql/machete-employer.sql
+  - psql -c 'create database travis_ci_test;' -U postgres
